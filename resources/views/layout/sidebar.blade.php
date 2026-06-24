@@ -4,7 +4,7 @@
         <div class="p-2">
             <div class="p-6">
                 <a href="{{ route('dashboard') }}">
-                    <div class="w-32 md:w-28 xl:w-32 2xl:w-32 h-auto flex items-center mx-auto">
+                    <div class="w-32 md:w-36 xl:w-40 2xl:w-44 h-auto flex items-center mx-auto">
                         <img src="{{ asset('logo.png') }}" alt="Logo" class="w-full h-auto object-contain">
                     </div>
                 </a>

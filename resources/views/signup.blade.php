@@ -4,104 +4,170 @@
 <head>
     <title>Register</title>
     @include('layout.head')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        .strength-bar { height: 8px; background-color: #e5e7eb; border-radius: 4px; margin-top: 6px; }
-        .strength-bar span { display: block; height: 100%; border-radius: 4px; }
-        .strength-weak { width: 33%; background-color: #ef4444; }
-        .strength-medium { width: 66%; background-color: #f97316; }
-        .strength-strong { width: 100%; background-color: #22c55e; }
-        .password-requirements { font-size: 0.8rem; color: #6b7280; }
-        .password-container { position: relative; }
+        .strength-bar {
+            height: 8px;
+            background-color: #ddd;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .strength-bar span {
+            display: block;
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .strength-weak {
+            width: 33%;
+            background-color: red;
+        }
+
+        .strength-medium {
+            width: 66%;
+            background-color: orange;
+        }
+
+        .strength-strong {
+            width: 100%;
+            background-color: green;
+        }
+
+        .password-requirements {
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
         .toggle-password {
-            position: absolute; top: 50%; right: 12px;
-            transform: translateY(-50%); cursor: pointer; color: #9ca3af;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        @media (max-width: 375px) {
+            .h-screen {
+                height: auto;
+            }
         }
     </style>
+
 </head>
 
-<body class="font-sans">
-    <div class="min-h-screen w-full bg-gradient-to-br from-orange-600 to-orange-300 flex items-center justify-center p-4">
-        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 space-y-6 my-8">
-            <div class="text-center space-y-1">
-                <h1 class="text-4xl font-extrabold text-orange-500">Funnev</h1>
-                <h2 class="text-xl font-bold text-gray-800">Register</h2>
-                <p class="text-gray-500 text-sm">Buat akun organizer</p>
+<body class="">
+    <div class="h-screen w-full mx-auto bg-gradient-to-b from-orange-800 to-orange-200 flex items-center p-4 xl:p-0 2xl:p-0">
+        <div class="mx-auto sm:max-w-sm w-full space-y-3 p-8 bg-white rounded-md">
+            <div class="space-y-3">
+                <div>
+                    <a href="">
+                        <h1 class="text-5xl xl:text-6xl 2xl:text-6xl font-extrabold text-black">Funnev</h1>
+                    </a>
+                </div>
+                <div>
+                    <h1 class="text-2xl xl:text-3xl 2xl:text-3xl font-extrabold text-black">Register</h1>
+                    <p class="text-black text-lg xl:text-xl 2xl:text-xl font-extralight">Sign up</p>
+                </div>
             </div>
-
-            <form method="post" action="{{ route('register') }}" class="space-y-5">
+            <form method="post" action="{{ route('register') }}" class="space-y-6">
                 @csrf
-                <div>
-                    <label for="name" class="block text-xs font-bold text-gray-500 uppercase mb-1">Organizer Name</label>
-                    <input class="w-full rounded-lg border-gray-300 shadow-sm p-2.5 border focus:ring-2 focus:ring-orange-500"
-                        type="text" name="name" required />
+                <div class="space-y-2">
+                    <label for="name" class="text-black">Organizer Name</label>
+                    <input class="w-full p-2 bg-gray-100 rounded-md" type="name" name="name" required />
                 </div>
-                <div>
-                    <label for="email" class="block text-xs font-bold text-gray-500 uppercase mb-1">Email</label>
-                    <input class="w-full rounded-lg border-gray-300 shadow-sm p-2.5 border focus:ring-2 focus:ring-orange-500"
-                        type="email" name="email" required />
+                <div class="space-y-2">
+                    <label for="email" class="text-black">Email</label>
+                    <input class="w-full p-2 bg-gray-100 rounded-md" type="email" name="email" required />
                 </div>
-                <div>
-                    <label for="password" class="block text-xs font-bold text-gray-500 uppercase mb-1">Password</label>
+                <div class='space-y-2'>
+                    <label for="password" class='text-black'>Password</label>
                     <div class="password-container">
-                        <input id="password"
-                            class="w-full rounded-lg border-gray-300 shadow-sm p-2.5 pr-12 border focus:ring-2 focus:ring-orange-500"
-                            type="password" name="password" required />
+                        <input id="password" class='w-full p-2 bg-gray-100 rounded-md pr-12' type="password"
+                            name="password" required />
                         <i id="toggle-password" class="fas fa-eye toggle-password"></i>
                     </div>
-                    <div class="strength-bar" id="strength-bar"><span></span></div>
-                    <div class="password-requirements mt-1" id="password-requirements">
-                        Minimal 8 karakter, mengandung huruf besar, angka, dan karakter spesial.
+                    <div class="strength-bar" id="strength-bar">
+                        <span></span>
+                    </div>
+                    <div class="password-requirements" id="password-requirements">
+                        Password must be at least 8 characters long, contain an uppercase letter, a number, and a
+                        special character.
                     </div>
                 </div>
-                <div>
-                    <label for="password_confirmation" class="block text-xs font-bold text-gray-500 uppercase mb-1">Konfirmasi Password</label>
+                <div class='space-y-2'>
+                    <label for="password_confirmation" class='text-black'>Password Confirmation</label>
                     <div class="password-container">
-                        <input id="password_confirmation"
-                            class="w-full rounded-lg border-gray-300 shadow-sm p-2.5 pr-12 border focus:ring-2 focus:ring-orange-500"
+                        <input id="password_confirmation" class='w-full p-2 bg-gray-100 rounded-md pr-12'
                             type="password" name="password_confirmation" required />
                         <i id="toggle-password-confirmation" class="fas fa-eye toggle-password"></i>
                     </div>
                 </div>
-
-                <div class="flex justify-between items-center text-sm">
-                    <span class="text-gray-500">Sudah punya akun?</span>
-                    <a href="{{ route('signin') }}" class="text-orange-600 font-semibold hover:underline">Sign In</a>
+                <div class="flex justify-between">
+                    <div>
+                        <h1 class="text-black text-base xl:text-lg font-extralight">Already Have Account?</h1>
+                    </div>
+                    <div>
+                        <a href="{{ route('signin') }}">
+                            <h1
+                                class="text-black text-base xl:text-lg font-extralight underline hover:font-semibold transition-all delay-100">
+                                Sign In</h1>
+                        </a>
+                    </div>
                 </div>
-
-                <x-button type="submit" variant="primary" icon="user-plus"
-                    class="w-full justify-center">Sign Up</x-button>
+                <div
+                    class='border-4 border-orange-500 p-2 rounded-md w-3/5 mx-auto hover:scale-110 duration-200 transition-all delay-100'>
+                    <button name="submit" type="submit"
+                        class='flex mx-auto text-black text-xl xl:text-2xl 2xl:text-2xl font-semibold'>
+                        Sign Up
+                    </button>
+                </div>
             </form>
         </div>
     </div>
-
     @include('sweetalert::alert')
     <script>
+        // Password Visibility Toggle
         document.getElementById('toggle-password').addEventListener('click', function() {
-            const f = document.getElementById('password');
-            f.type = f.type === 'password' ? 'text' : 'password';
-            this.classList.toggle('fa-eye-slash');
-        });
-        document.getElementById('toggle-password-confirmation').addEventListener('click', function() {
-            const f = document.getElementById('password_confirmation');
-            f.type = f.type === 'password' ? 'text' : 'password';
+            const passwordField = document.getElementById('password');
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+
             this.classList.toggle('fa-eye-slash');
         });
 
+        document.getElementById('toggle-password-confirmation').addEventListener('click', function() {
+            const passwordConfirmationField = document.getElementById('password_confirmation');
+            const type = passwordConfirmationField.type === 'password' ? 'text' : 'password';
+            passwordConfirmationField.type = type;
+
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Password Strength Checker
         const passwordInput = document.getElementById('password');
         const strengthBar = document.getElementById('strength-bar');
         const requirements = document.getElementById('password-requirements');
+
         passwordInput.addEventListener('input', () => {
             const value = passwordInput.value;
             let strength = 0;
+
             if (value.length >= 8) strength++;
             if (/[A-Z]/.test(value)) strength++;
             if (/[0-9]/.test(value)) strength++;
             if (/[\W_]/.test(value)) strength++;
+
             const strengthClasses = ['strength-weak', 'strength-medium', 'strength-strong'];
             strengthBar.querySelector('span').className = strengthClasses[strength - 1] || 'strength-weak';
-            requirements.style.color = strength < 4 ? '#ef4444' : '#22c55e';
+            requirements.style.color = strength < 4 ? 'red' : 'green';
         });
     </script>
+
 </body>
 
 </html>

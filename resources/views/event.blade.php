@@ -36,18 +36,21 @@
         <div class="p-6 space-y-6">
 
             <!-- Header Section -->
-            <div class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-3 md:space-y-0">
+            <div
+                class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-2 md:space-y-0">
                 <div>
                     <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-calendar-days text-orange-500"></i> Events
+                        <i class="fas fa-calendar-days text-purple-600 text-4xl"></i> Events Management
                     </h1>
-                    <p class="text-sm text-gray-500">Kelola event Anda</p>
+                    <p class="text-sm text-gray-500 mt-1">Organize and manage your events</p>
                 </div>
                 @if (auth()->user()->level === 'Organizer')
-                    <x-button id="addBtn" size="lg" icon="plus">Ajukan Event</x-button>
+
+                    <x-button id="addBtn" size="lg" variant="purple" icon="plus">Add</x-button>
                 @endif
             </div>
 
+        
             <!-- Table Section -->
             <div class="w-full bg-white rounded-xl shadow-md border border-gray-100">
                 <div class="p-5 overflow-auto">
@@ -55,16 +58,16 @@
                         <thead class="bg-gray-100 text-gray-600 text-sm leading-normal">
                             <tr>
                                 <th class="p-4 font-bold" width="5%">No</th>
-                                <th class="p-4 font-bold">Penanggung Jawab</th>
+                                <th class="p-4 font-bold">Organizer</th>
                                 <th class="p-4 font-bold">Event</th>
-                                <th class="p-4 font-bold">Lokasi</th>
-                                <th class="p-4 font-bold">Mulai</th>
-                                <th class="p-4 font-bold">Selesai</th>
+                                <th class="p-4 font-bold">Location</th>
+                                <th class="p-4 font-bold">Start</th>
+                                <th class="p-4 font-bold">End</th>
                                 <th class="p-4 font-bold">
                                     <div class="flex items-center justify-center">Status</div>
                                 </th>
                                 <th class="p-4 font-bold" width="15%">
-                                    <div class="flex items-center justify-center">Aksi</div>
+                                    <div class="flex items-center justify-center">Action</div>
                                 </th>
                             </tr>
                         </thead>

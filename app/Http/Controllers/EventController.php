@@ -29,12 +29,6 @@ class EventController extends Controller
         return view('event', compact('events'));
     }
 
-    public function create()
-    {
-        $kategoris = Kategori::all();
-        return view('addevent', compact('kategoris'));
-    }
-
     public function store(Request $request)
     {
         $user = Auth::user();

@@ -32,11 +32,14 @@
         <div class="p-6 space-y-6">
 
             <!-- Header Section -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-                <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                    <i class="fas fa-receipt text-orange-500"></i> Transactions
-                </h1>
-                <p class="text-sm text-gray-500">Riwayat transaksi pembelian tiket</p>
+            <div
+                class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-2 md:space-y-0">
+                <div>
+                    <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-receipt text-blue-500 text-4xl"></i> Transactions
+                    </h1>
+                    <p class="text-sm text-gray-500 mt-1">Manage your active transactions</p>
+                </div>
             </div>
 
             <!-- Table Section -->
@@ -46,16 +49,16 @@
                         <thead class="bg-gray-100 text-gray-600 text-sm leading-normal">
                             <tr>
                                 <th class="p-4 font-bold" width="5%">No</th>
-                                <th class="p-4 font-bold">Tanggal</th>
+                                <th class="p-4 font-bold">Date</th>
                                 <th class="p-4 font-bold">No Order</th>
-                                <th class="p-4 font-bold">Pembeli</th>
+                                <th class="p-4 font-bold">Customer</th>
                                 <th class="p-4 font-bold">Event</th>
                                 <th class="p-4 font-bold">Total</th>
                                 <th class="p-4 font-bold">
                                     <div class="flex items-center justify-center">Status</div>
                                 </th>
                                 <th class="p-4 font-bold" width="10%">
-                                    <div class="flex items-center justify-center">Aksi</div>
+                                    <div class="flex items-center justify-center">Action</div>
                                 </th>
                             </tr>
                         </thead>

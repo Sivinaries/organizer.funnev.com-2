@@ -32,12 +32,16 @@
         <div class="p-6 space-y-6">
 
             <!-- Header Section -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-                <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                    <i class="fas fa-clipboard-user text-orange-500"></i> Attendance
-                </h1>
-                <p class="text-sm text-gray-500">Riwayat scan tiket pengunjung</p>
+            <div
+                class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-2 md:space-y-0">
+                <div>
+                    <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
+                        <i class="fa-solid fa-users text-gray-500 text-4xl"></i> Attendance
+                    </h1>
+                    <p class="text-sm text-gray-500 mt-1">View visitor attendance records and check-in details</p>
+                </div>
             </div>
+
 
             <!-- Table Section -->
             <div class="w-full bg-white rounded-xl shadow-md border border-gray-100">
@@ -46,7 +50,7 @@
                         <thead class="bg-gray-100 text-gray-600 text-sm leading-normal">
                             <tr>
                                 <th class="p-4 font-bold" width="5%">No</th>
-                                <th class="p-4 font-bold">Tanggal</th>
+                                <th class="p-4 font-bold">Date</th>
                                 <th class="p-4 font-bold">User</th>
                                 <th class="p-4 font-bold">Event</th>
                                 <th class="p-4 font-bold">No Ticket</th>
@@ -54,7 +58,7 @@
                                 <th class="p-4 font-bold">Used</th>
                                 <th class="p-4 font-bold">Scanned</th>
                                 <th class="p-4 font-bold" width="10%">
-                                    <div class="flex items-center justify-center">Aksi</div>
+                                    <div class="flex items-center justify-center">Action</div>
                                 </th>
                             </tr>
                         </thead>
@@ -68,7 +72,8 @@
                                     <td class="p-4 font-bold text-gray-900">{{ $item->event->event }}</td>
                                     <td class="p-4 font-mono text-xs">{{ $item->tickQr->no_ticket }}</td>
                                     <td class="p-4">
-                                        <span class="bg-indigo-50 text-indigo-700 text-xs px-2.5 py-1 rounded-full font-bold border border-indigo-100">
+                                        <span
+                                            class="bg-indigo-50 text-indigo-700 text-xs px-2.5 py-1 rounded-full font-bold border border-indigo-100">
                                             {{ $item->tickQr->ticket->type }}
                                         </span>
                                     </td>
@@ -107,18 +112,18 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             new DataTable('#myTable', {
                 columnDefs: [{
                     targets: 1,
-                    render: function(data, type) {
+                    render: function (data, type) {
                         if (type !== 'display' || !data) return data;
                         const date = new Date(data);
                         return isNaN(date) ? data : date.toLocaleDateString('id-ID');
                     },
                 }, {
                     targets: 7,
-                    render: function(data, type) {
+                    render: function (data, type) {
                         if (type !== 'display' || !data) return data;
                         const date = new Date(data);
                         return isNaN(date) ? data : date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID');

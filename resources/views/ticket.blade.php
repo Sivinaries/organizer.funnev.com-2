@@ -34,15 +34,16 @@
         <div class="p-6 space-y-6">
 
             <!-- Header Section -->
-            <div class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-3 md:space-y-0">
+            <div
+                class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-3 md:space-y-0">
                 <div>
                     <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-ticket text-orange-500"></i> Tickets
+                        <i class="fas fa-ticket text-blue-500 text-4xl"></i> Tickets
                     </h1>
-                    <p class="text-sm text-gray-500">Kelola tiket event</p>
+                    <p class="text-sm text-gray-500 mt-1">View, manage, and track all your event tickets </p>
                 </div>
                 @if (auth()->user()->level === 'Organizer')
-                    <x-button id="addBtn" size="lg" icon="plus">Tambah</x-button>
+                    <x-button id="addBtn" size="lg" icon="plus" variant="blue">Add</x-button>
                 @endif
             </div>
 
@@ -71,12 +72,14 @@
                                     <td class="p-4 text-xs">{{ $item->created_at }}</td>
                                     <td class="p-4 font-bold text-gray-900">{{ $item->event->event }}</td>
                                     <td class="p-4">
-                                        <span class="bg-indigo-50 text-indigo-700 text-xs px-2.5 py-1 rounded-full font-bold border border-indigo-100">
+                                        <span
+                                            class="bg-indigo-50 text-indigo-700 text-xs px-2.5 py-1 rounded-full font-bold border border-indigo-100">
                                             {{ $item->type }}
                                         </span>
                                     </td>
                                     <td class="p-4">
-                                        <span class="inline-flex items-center bg-orange-50 text-orange-700 text-xs font-bold px-2.5 py-1 rounded-full border border-orange-100">
+                                        <span
+                                            class="inline-flex items-center bg-orange-50 text-orange-700 text-xs font-bold px-2.5 py-1 rounded-full border border-orange-100">
                                             Rp. {{ number_format($item->price, 0, ',', '.') }}
                                         </span>
                                     </td>
@@ -121,7 +124,7 @@
         <script>
             window.ticketsData = {
                 @foreach ($tickets as $item)
-                    "{{ $item->id }}": {
+                                    "{{ $item->id }}": {
                         type: @json($item->type),
                         price: @json($item->price),
                         pcs: @json($item->pcs),
@@ -129,7 +132,7 @@
                         desc: @json($item->desc),
                     },
                 @endforeach
-            };
+                    };
         </script>
     @endif
     <script src="{{ asset('modal/ticket.js') }}"></script>

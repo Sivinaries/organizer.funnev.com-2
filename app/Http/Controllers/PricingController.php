@@ -17,11 +17,6 @@ class PricingController extends Controller
         return view('pricing', compact('pricings'));
     }
 
-    public function create()
-    {
-        return view('addpricing');
-    }
-
     public function store(Request $request)
     {
         $data = $request->validate([

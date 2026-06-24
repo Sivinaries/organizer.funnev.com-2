@@ -24,12 +24,6 @@ class TicketController extends Controller
         return view('ticket', compact('tickets'));
     }
 
-    public function create()
-    {
-        $events = Auth::user()->events;
-        return view('addticket', compact('events'));
-    }
-
     public function store(Request $request)
     {
         $user = Auth::user();

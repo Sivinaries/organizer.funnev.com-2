@@ -17,11 +17,6 @@ class KategoriController extends Controller
         return view('kategori', compact('kategoris'));
     }
 
-    public function create()
-    {
-        return view("addkategori");
-    }
-
     public function store(Request $request)
     {
         $data = $request->validate([

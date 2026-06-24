@@ -16,9 +16,9 @@
             <!-- Header -->
             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                 <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                    <i class="fas fa-user text-orange-500"></i> Profil
+                    <i class="fas fa-user text-gray-500 text-4xl"></i> Profil
                 </h1>
-                <p class="text-sm text-gray-500">Informasi akun Anda</p>
+                <p class="text-sm text-gray-500 mt-1">Informasi akun Anda</p>
             </div>
 
             <!-- Profile Card -->

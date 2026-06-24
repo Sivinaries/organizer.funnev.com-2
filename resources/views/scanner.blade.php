@@ -30,11 +30,14 @@
         <div class="p-6 space-y-6">
 
             <!-- Header -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-                <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                    <i class="fas fa-qrcode text-orange-500"></i> Scanner
-                </h1>
-                <p class="text-sm text-gray-500">Arahkan kamera ke QR tiket pengunjung</p>
+            <div
+                class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-2 md:space-y-0">
+                <div>
+                    <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-qrcode text-yellow-500 text-4xl"></i> Scanner
+                    </h1>
+                    <p class="text-sm text-gray-500 mt-1">Point your camera at the visitor ticket QR code</p>
+                </div>
             </div>
 
             <!-- Scanner Card -->

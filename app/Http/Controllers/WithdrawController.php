@@ -24,11 +24,6 @@ class WithdrawController extends Controller
         return view('withdraw', compact('withdraws'));
     }
 
-    public function create()
-    {
-        return view('addwithdraw');
-    }
-
     public function store(Request $request)
     {
         $user = Auth::user();

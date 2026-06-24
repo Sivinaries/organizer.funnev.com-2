@@ -34,22 +34,24 @@
         <div class="p-6 space-y-6">
 
             <!-- Header Section -->
-            <div class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-3 md:space-y-0">
+            <div
+                class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-3 md:space-y-0">
                 <div>
                     <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-wallet text-orange-500"></i> Withdraws
+                        <i class="fas fa-wallet text-purple-500 text-4xl"></i> Withdraws
                     </h1>
                     @if (auth()->user()->level === 'Organizer')
                         <p class="text-sm text-gray-500 mt-1">
-                            Saldo Anda:
-                            <span class="font-bold text-emerald-600">Rp. {{ number_format(auth()->user()->balance, 0, ',', '.') }}</span>
+                            Your current balance is:
+                            <span class="font-bold text-emerald-600">Rp.
+                                {{ number_format(auth()->user()->balance, 0, ',', '.') }}</span>
                         </p>
                     @else
                         <p class="text-sm text-gray-500">Kelola permintaan penarikan dana</p>
                     @endif
                 </div>
                 @if (auth()->user()->level === 'Organizer')
-                    <x-button id="addBtn" size="lg" icon="plus">Ajukan</x-button>
+                    <x-button id="addBtn" size="lg" icon="plus" variant="purple">Add</x-button>
                 @endif
             </div>
 
@@ -82,7 +84,8 @@
                                     <td class="p-4 font-bold text-gray-900">{{ $item->user->name }}</td>
                                     <td class="p-4">{{ $item->no_rek }}</td>
                                     <td class="p-4">
-                                        <span class="bg-indigo-50 text-indigo-700 text-xs px-2.5 py-1 rounded-full font-bold border border-indigo-100">
+                                        <span
+                                            class="bg-indigo-50 text-indigo-700 text-xs px-2.5 py-1 rounded-full font-bold border border-indigo-100">
                                             {{ $item->payment_type }}
                                         </span>
                                     </td>

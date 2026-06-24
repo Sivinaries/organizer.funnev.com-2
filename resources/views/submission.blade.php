@@ -32,11 +32,14 @@
         <div class="p-6 space-y-6">
 
             <!-- Header Section -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-                <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                    <i class="fas fa-file-lines text-orange-500"></i> Submissions
-                </h1>
-                <p class="text-sm text-gray-500">Pengajuan event Anda</p>
+            <div
+                class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-2 md:space-y-0">
+                <div>
+                    <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
+                        <i class="fa-solid fa-clipboard-check text-green-500 text-4xl"></i> Submissions
+                    </h1>
+                    <p class="text-sm text-gray-500 mt-1">Manage and track all your form submissions in one place</p>
+                </div>
             </div>
 
             <!-- Table Section -->
@@ -110,11 +113,11 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             new DataTable('#myTable', {
                 columnDefs: [{
                     targets: 1,
-                    render: function(data, type) {
+                    render: function (data, type) {
                         if (type !== 'display' || !data) return data;
                         const date = new Date(data);
                         return isNaN(date) ? data : date.toLocaleDateString('id-ID');

@@ -59,38 +59,30 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //EVENT CONTROLLER
     Route::get('/category', [KategoriController::class, 'index'])->name('category');
-    Route::get('/addcategory', [KategoriController::class, 'create'])->name('addcategory');
     Route::post('/postcategory', [KategoriController::class, 'store'])->name('postcategory');
-    Route::get('/editcategory/{id}', [KategoriController::class, 'edit'])->name('editcategory');
     Route::put('/updatecategory/{id}', [KategoriController::class, 'update'])->name('updatecategory');
     Route::delete('/delcategory/{id}', [KategoriController::class, 'destroy'])->name('delcategory');
 
     //EVENT CONTROLLER
     Route::get('/events', [EventController::class, 'index'])->name('events');
-    Route::get('/addevent', [EventController::class, 'create'])->name('addevent');
     Route::post('/postevent', [EventController::class, 'store'])->name('postevent');
     Route::get('/showevent/{id}/{event}', [EventController::class, 'show'])->name('showevent');
     Route::delete('/delevent/{id}', [EventController::class, 'destroy'])->name('delevent');
 
     //HOT CONTROLLER
     Route::get('/hots', [HotController::class, 'index'])->name('hots');
-    Route::get('/addhot', [HotController::class, 'create'])->name('addhot');
     Route::post('/posthot', [HotController::class, 'store'])->name('posthot');
     Route::delete('/delhot/{id}', [HotController::class, 'destroy'])->name('delhot');
 
     //PRICING CONTROLLER
     Route::get('/pricings', [PricingController::class, 'index'])->name('pricings');
-    Route::get('/addpricing', [PricingController::class, 'create'])->name('addpricing');
     Route::post('/postpricing', [PricingController::class, 'store'])->name('postpricing');
-    Route::get('/editpricing/{id}', [PricingController::class, 'edit'])->name('editpricing');
     Route::put('/updatepricing/{id}', [PricingController::class, 'update'])->name('updatepricing');
     Route::delete('/delpricing/{id}', [PricingController::class, 'destroy'])->name('delpricing');
 
     //TCIKET CONTROLLER
     Route::get('/tickets', [TicketController::class, 'index'])->name('tickets');
-    Route::get('/addticket', [TicketController::class, 'create'])->name('addticket');
     Route::post('/postticket', [TicketController::class, 'store'])->name('postticket');
-    Route::get('/editticket/{id}/{type}', [TicketController::class, 'edit'])->name('editticket');
     Route::put('/updateticket/{id}', [TicketController::class, 'update'])->name('updateticket');
     Route::delete('/delticket/{id}', [TicketController::class, 'destroy'])->name('delticket');
 
@@ -111,7 +103,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //WITHDRAW CONTROLLER
     Route::get('/withdraws', [WithdrawController::class, 'index'])->name('withdraws');
-    Route::get('/addwithdraw', [WithdrawController::class, 'create'])->name('addwithdraw');
     Route::post('/postwithdraw', [WithdrawController::class, 'store'])->name('postwithdraw');
     Route::get('/showwithdraw/{id}/{no_rek}', [WithdrawController::class, 'show'])->name('showwithdraw');
     Route::patch('/approve/{id}/{no_rek}', [WithdrawController::class, 'approve'])->name('approvewithdraw');

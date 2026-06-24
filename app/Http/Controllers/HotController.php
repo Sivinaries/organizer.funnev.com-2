@@ -18,13 +18,6 @@ class HotController extends Controller
         return view('hot', compact('hots'));
     }
 
-    public function create()
-    {
-        $events = Event::select('id', 'event')->get();
-
-        return view('addhot', compact('events'));
-    }
-
     public function store(Request $request)
     {
         $data = $request->validate([

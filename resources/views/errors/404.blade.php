@@ -6,20 +6,20 @@
     @include('layout.head')
 </head>
 
-<body class="font-sans bg-gradient-to-br from-orange-600 to-orange-300 min-h-screen flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl p-10 text-center max-w-md w-full space-y-5">
-        <div class="w-20 h-20 mx-auto bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
-            <i class="fas fa-triangle-exclamation text-4xl"></i>
+<body class="bg-gradient-to-b from-orange-800 to-orange-200 h-screen grid grid-cols-1">
+    <div class="my-auto text-center space-y-4">
+        <div class="space-y-2">
+            <h1 class="text-4xl font-bold text-white">404</h1>
+            <h1 class="text-2xl font-semibold text-white">Page Not Found</h1>
+            <h1 class="text-white">Oops! The page you're looking for doesn’t exist.</h1>
         </div>
-        <div class="space-y-1">
-            <h1 class="text-5xl font-extrabold text-gray-800">404</h1>
-            <h2 class="text-xl font-bold text-gray-700">Page Not Found</h2>
-            <p class="text-gray-500 text-sm">Oops! Halaman yang Anda cari tidak ditemukan.</p>
+        <div class="p-2 bg-orange-600 hover:bg-orange-800 rounded-md w-fit mx-auto transition-all delay-100 hover:scale-105">
+            <a href="{{ route('signin') }}" class="">
+                <h1 class="text-lg font-normal text-white hover:underline transition-all delay-100 px-4">
+                    Return to Home
+                </h1>
+            </a>
         </div>
-        <a href="{{ route('signin') }}"
-            class="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg shadow-md transition hover:scale-105">
-            <i class="fas fa-house"></i> Return to Home
-        </a>
     </div>
 </body>
 

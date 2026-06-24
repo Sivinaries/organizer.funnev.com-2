@@ -137,7 +137,6 @@
         @include('modal.withdrawAdd')
     @endif
 
-    @include('layout.errors')
     @include('sweetalert::alert')
 </body>
 

@@ -95,7 +95,6 @@
     <!-- Modals -->
     @include('modal.hotAdd')
 
-    @include('layout.errors')
     @include('sweetalert::alert')
 </body>
 

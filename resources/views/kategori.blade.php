@@ -104,7 +104,6 @@
     @include('modal.categoryAdd')
     @include('modal.categoryEdit')
 
-    @include('layout.errors')
     @include('sweetalert::alert')
 </body>
 

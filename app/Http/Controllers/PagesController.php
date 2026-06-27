@@ -117,7 +117,7 @@ class PagesController extends Controller
             'selectedYear' => $year,
         ]);
     }
-
+    
     public function search(Request $request)
     {
         $searchTerm = $request->input('search');

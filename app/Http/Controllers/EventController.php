@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Act;
 use App\Models\Event;
 use App\Models\Approval;
-use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
@@ -18,13 +17,18 @@ class EventController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $cacheKey = $user->level === 'Admin' ? 'events_all' : "events_user_{$user->id}";
 
-        $events = Cache::remember($cacheKey, 180, function () use ($user) {
-            return $user->level === 'Admin'
-                ? Event::with('transactions')->latest()->get()
-                : Event::with('transactions')->where('user_id', $user->id)->latest()->get();
-        });
+        if (!$user) {
+            abort(403, 'Unauthorized');
+        }
+
+        $query = Event::query()->with('transactions');
+
+        if ($user->level !== 'Admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        $events = $query->latest()->get();
 
         return view('event', compact('events'));
     }
@@ -177,7 +181,7 @@ class EventController extends Controller
             }
 
             $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            
+
             $fileName = $originalName . '-' . time() . '.jpg';
 
             $path = storage_path("app/public/$folder/$fileName");

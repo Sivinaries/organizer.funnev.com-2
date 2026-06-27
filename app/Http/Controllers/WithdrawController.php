@@ -17,9 +17,17 @@ class WithdrawController extends Controller
     {
         $user = Auth::user();
 
-        $withdraws = $user->level === 'Admin'
-            ? Withdraw::latest()->get()
-            : $user->withdraws()->latest()->get();
+        if (!$user) {
+            abort(403, 'Unauthorized');
+        }
+
+        $query = Withdraw::query();
+
+        if ($user->level !== 'Admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        $withdraws = $query->latest()->get();
 
         return view('withdraw', compact('withdraws'));
     }

@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Act;
 use App\Models\Pricing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class PricingController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+
+        if ($user->level !== 'Admin') {
+            abort(403, 'Unauthorized');
+        }
+
         $pricings = Cache::remember('pricings', now()->addMinutes(30), function () {
-            return Pricing::all();
+            return Pricing::latest()->get();
         });
 
         return view('pricing', compact('pricings'));
@@ -24,18 +32,17 @@ class PricingController extends Controller
             'fee' => 'required|integer',
         ]);
 
-        Pricing::create($data);
+        $pricing = Pricing::create($data);
+
+        $this->logActivity(
+            'Pricing Created',
+            'Pricing "' . $pricing->name . '" with fee "' . $pricing->fee . '" has been created',
+            auth()->id()
+        );
 
         $this->clearPricingCache();
 
         return redirect()->route('pricings')->with('success', 'Pricing successfully registered!');
-    }
-
-    public function edit($id)
-    {
-        $pricing = Pricing::findOrFail($id);
-
-        return view('editpricing', compact('pricing'));
     }
 
     public function update(Request $request, $id)
@@ -45,9 +52,18 @@ class PricingController extends Controller
             'fee' => 'required|integer',
         ]);
 
-        $data = $request->only(['name', 'fee']);
+        $pricing = Pricing::findOrFail($id);
+        $oldName = $pricing->name;
+        $oldFee = $pricing->fee;
 
+        $data = $request->only(['name', 'fee']);
         Pricing::where('id', $id)->update($data);
+
+        $this->logActivity(
+            'Pricing Updated',
+            'Pricing "' . $oldName . '" (' . $oldFee . ') has been updated to "' . $data['name'] . '" (' . $data['fee'] . ')',
+            auth()->id()
+        );
 
         $this->clearPricingCache();
 
@@ -56,7 +72,17 @@ class PricingController extends Controller
 
     public function destroy($id)
     {
+        $pricing = Pricing::findOrFail($id);
+        $pricingName = $pricing->name;
+        $pricingFee = $pricing->fee;
+
         Pricing::destroy($id);
+
+        $this->logActivity(
+            'Pricing Deleted',
+            'Pricing "' . $pricingName . '" with fee "' . $pricingFee . '" has been deleted',
+            auth()->id()
+        );
 
         $this->clearPricingCache();
 
@@ -67,5 +93,15 @@ class PricingController extends Controller
     {
         Cache::forget('pricings');
         Cache::forget('pricings_user');
+    }
+
+    private function logActivity(string $action, string $description, int $userId): void
+    {
+        Act::create([
+            'user_id' => $userId,
+            'action' => strtolower(str_replace(' ', '_', $action)),
+            'description' => $description,
+        ]);
+        Cache::forget('acts');
     }
 }

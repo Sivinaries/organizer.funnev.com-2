@@ -4,27 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\TickQr;
 use App\Models\Attendance;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
-     public function index()
+    public function index()
     {
         $user = Auth::user();
 
-        $attendances = $user->level === 'Admin'
-            ? Attendance::with(['event', 'transaction', 'tickQr'])->latest()->get()
-            : Attendance::with(['event', 'transaction', 'tickQr'])
-            ->whereHas('event', fn($query) => $query->where('user_id', $user->id))
-            ->latest()
-            ->get();
+        if (!$user) {
+            abort(403, 'Unauthorized');
+        }
+
+        $query = Attendance::query()->with(['event', 'transaction', 'tickQr']);
+
+        if ($user->level !== 'Admin') {
+            $query->whereHas('event', fn($q) => $q->where('user_id', $user->id));
+        }
+
+        $attendances = $query->latest()->get();
 
         return view('attendance', compact('attendances'));
     }
-
 
     public function store(Request $request)
     {

@@ -7,16 +7,21 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-     public function index()
+    public function index()
     {
         $user = Auth::user();
 
-        $transactions = $user->level === 'Admin'
-            ? Transaction::with(['user', 'tickets', 'event.user'])->latest()->get()
-            : Transaction::with(['user', 'tickets', 'event.user'])
-            ->whereHas('event', fn($query) => $query->where('user_id', $user->id))
-            ->latest()
-            ->get();
+        if (!$user) {
+            abort(403, 'Unauthorized');
+        }
+
+        $query = Transaction::query()->with(['user', 'tickets', 'event.user']);
+
+        if ($user->level !== 'Admin') {
+            $query->whereHas('event', fn($q) => $q->where('user_id', $user->id));
+        }
+
+        $transactions = $query->latest()->get();
 
         return view('transaction', compact('transactions'));
     }

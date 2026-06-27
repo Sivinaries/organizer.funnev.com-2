@@ -15,11 +15,17 @@ class TicketController extends Controller
     {
         $user = Auth::user();
 
-        $tickets = $user->level === 'Admin'
-            ? Ticket::latest()->get()
-            : Ticket::whereHas('event', fn($query) => $query->where('user_id', $user->id))
-                ->latest()
-                ->get();
+        if (!$user) {
+            abort(403, 'Unauthorized');
+        }
+
+        $query = Ticket::query()->with('event');
+
+        if ($user->level !== 'Admin') {
+            $query->whereHas('event', fn($q) => $q->where('user_id', $user->id));
+        }
+
+        $tickets = $query->latest()->get();
 
         return view('ticket', compact('tickets'));
     }

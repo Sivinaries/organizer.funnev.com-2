@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
+use App\Models\Act;
 use App\Models\Approval;
-use Illuminate\Support\Facades\DB;
+use App\Models\Event;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\DB;
 
 class ApprovalController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+
+        if ($user->level !== 'Admin') {
+            abort(403, 'Unauthorized');
+        }
+
         $approvals = Approval::all();
 
         return view('approval', compact('approvals'));
@@ -19,8 +26,14 @@ class ApprovalController extends Controller
 
     public function store($id)
     {
+        $user = Auth::user();
+
+        if ($user->level !== 'Admin') {
+            abort(403, 'Unauthorized');
+        }
+
         DB::transaction(function () use ($id) {
-            $approval = Approval::findOrFail($id); // Ambil model berdasarkan ID
+            $approval = Approval::findOrFail($id);
 
             Event::create([
                 'name' => $approval->name,
@@ -40,7 +53,9 @@ class ApprovalController extends Controller
                 'status' => 'Approve',
             ]);
 
-            $approval->delete(); // Hapus setelah di-approve
+            $this->logActivity('Event Approved', 'Event "' . $approval->name . '" has been approved and posted', $approval->user_id);
+
+            $approval->delete();
         });
 
         return redirect(route('approvals'))->with('success', 'Event successfully posted!');
@@ -48,6 +63,12 @@ class ApprovalController extends Controller
 
     public function show($id, $name)
     {
+        $user = Auth::user();
+
+        if ($user->level !== 'Admin') {
+            abort(403, 'Unauthorized');
+        }
+
         $approval = Approval::findOrFail($id);
 
         return view('showapproval', compact('approval'));
@@ -55,8 +76,31 @@ class ApprovalController extends Controller
 
     public function destroy($id)
     {
+        $user = Auth::user();
+
+        if ($user->level !== 'Admin') {
+            abort(403, 'Unauthorized');
+        }
+
+        $approval = Approval::findOrFail($id);
+        $approvalName = $approval->name;
+        $userId = $approval->user_id;
+
         Approval::destroy($id);
 
+        $this->logActivity('Approval Rejected', 'Approval "' . $approvalName . '" has been rejected', $userId);
+
         return redirect(route('approvals'))->with('success', 'Approvals Removed !');
+    }
+
+    private function logActivity(string $action, string $description, int $userId): void
+    {
+        Act::create([
+            'user_id' => $userId,
+            'action' => strtolower(str_replace(' ', '_', $action)),
+            'description' => $description,
+        ]);
+
+        Cache::forget('acts');
     }
 }

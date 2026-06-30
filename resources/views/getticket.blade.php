@@ -22,7 +22,7 @@
                 </a>
                 <div>
                     <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-ticket text-orange-500"></i> Detail Tiket
+                        <i class="fas fa-ticket text-blue-600"></i> Detail Tiket
                     </h1>
                     <p class="text-sm text-gray-500">Verifikasi & check-in pengunjung</p>
                 </div>

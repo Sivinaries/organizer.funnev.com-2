@@ -49,10 +49,9 @@
                         <thead class="bg-gray-100 text-gray-600 text-sm leading-normal">
                             <tr>
                                 <th class="p-4 font-bold" width="5%">No</th>
-                                <th class="p-4 font-bold">Date</th>
+                                <th class="p-4 font-bold">Event</th>
                                 <th class="p-4 font-bold">No Order</th>
                                 <th class="p-4 font-bold">Customer</th>
-                                <th class="p-4 font-bold">Event</th>
                                 <th class="p-4 font-bold">Total</th>
                                 <th class="p-4 font-bold">
                                     <div class="flex items-center justify-center">Status</div>
@@ -67,13 +66,19 @@
                             @foreach ($transactions as $item)
                                 <tr class="hover:bg-gray-50 transition duration-150">
                                     <td class="p-4 font-medium">{{ $no++ }}</td>
-                                    <td class="p-4 text-xs">{{ $item->created_at }}</td>
-                                    <td class="p-4 font-mono text-xs font-bold text-gray-900">{{ $item->no_order }}</td>
-                                    <td class="p-4">
-                                        <div class="font-bold text-gray-900">{{ $item->user->name }}</div>
-                                        <div class="text-xs text-gray-400">{{ $item->user->email }}</div>
+                                    <td class="p-4 font-medium">{{ $item->event?->event ?? '—' }}</td>
+                                    <td class="p-4 space-y-1">
+                                        <div class="font-bold text-gray-900 text-base">
+                                            {{ $item->no_order ?? '-' }}
+                                        </div>
+                                        <div class="text-xs text-gray-400">Created:
+                                            {{ $item->created_at ? $item->created_at->format('Y-m-d') : '-' }}
+                                        </div>
                                     </td>
-                                    <td class="p-4">{{ $item->event->event }}</td>
+                                    <td class="p-4">
+                                        <div class="font-bold text-gray-900 text-base">{{ $item->user?->name ?? '—' }}</div>
+                                        <div class="text-xs text-gray-400">{{ $item->user?->email ?? '—' }}</div>
+                                    </td>
                                     <td class="p-4 font-bold">Rp. {{ number_format($item->total_amount, 0, ',', '.') }}</td>
                                     <td class="p-4">
                                         @php
@@ -89,7 +94,7 @@
                                         @endphp
                                         <div class="flex justify-center">
                                             <span class="px-3 py-1 rounded-full text-xs font-bold border {{ $badge }}">
-                                                {{ ucfirst($item->status) }}
+                                                {{ ucfirst($item->status ?? '—') }}
                                             </span>
                                         </div>
                                     </td>
@@ -116,7 +121,7 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             new DataTable('#myTable', {});
         });
     </script>

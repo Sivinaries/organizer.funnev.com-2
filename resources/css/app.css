@@ -9,3 +9,46 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* ============ DataTables: alignment & UX selaras HRIS ============ */
+/* Override auto-alignment kanan DataTables untuk kolom angka/tanggal */
+table.dataTable thead th {
+    text-align: left !important;
+}
+
+table.dataTable tbody td {
+    text-align: left !important;
+    vertical-align: middle;
+    border-top: 1px solid #f3f4f6;
+}
+
+/* Kontrol filter & paging DataTables seragam */
+.dataTables_wrapper .dataTables_length select {
+    padding-right: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #f97316 !important;
+    border-color: #f97316 !important;
+    border-radius: 0.5rem;
+    color: #fff !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #fed7aa !important;
+    border-color: #fed7aa !important;
+    border-radius: 0.5rem;
+    color: #1f2937 !important;
+}
+
+table.dataTable.no-footer {
+    border-bottom: 1px solid #e5e7eb;
+}

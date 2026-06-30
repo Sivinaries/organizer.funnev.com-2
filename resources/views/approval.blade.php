@@ -34,7 +34,7 @@
             <!-- Header Section -->
             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                 <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                    <i class="fas fa-clipboard-check text-orange-500"></i> Approvals
+                    <i class="fas fa-clipboard-check text-amber-600"></i> Approvals
                 </h1>
                 <p class="text-sm text-gray-500">Tinjau pengajuan event yang masuk</p>
             </div>

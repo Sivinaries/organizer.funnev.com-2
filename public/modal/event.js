@@ -6,15 +6,14 @@ $(document).ready(function () {
 
     const addModal = $('#addModal');
 
-    // ========== Lazy init untuk Summernote & Leaflet (di dalam modal) ==========
+    // ========== Summernote + Leaflet (lazy, di modal Ajukan Event) ==========
     let editorsReady = false;
     let map = null;
     let marker = null;
 
     function initEditors() {
-        if (editorsReady) return;
+        if (editorsReady || !$('#description').length) return;
         editorsReady = true;
-
         const toolbar = [
             ['font', ['bold', 'underline']],
             ['color', ['color']],
@@ -37,64 +36,60 @@ $(document).ready(function () {
     }
 
     // ========== Modal Open/Close ==========
-    function openAddModal() {
-        addModal.removeClass('hidden');
-        initEditors();
-        initMap();
-    }
+    if ($('#addModal').length) {
+        $('#addBtn').click(function () {
+            addModal.removeClass('hidden');
+            initEditors();
+            initMap();
+        });
+        $('#closeAddModal').click(() => addModal.addClass('hidden'));
 
-    $('#addBtn').click(openAddModal);
-    $('#closeAddModal').click(() => addModal.addClass('hidden'));
+        $(window).click((e) => {
+            if (e.target === addModal[0]) addModal.addClass('hidden');
+        });
+        $(document).on('keydown', (e) => {
+            if (e.key === 'Escape') addModal.addClass('hidden');
+        });
 
-    $(window).click((e) => {
-        if (e.target === addModal[0]) addModal.addClass('hidden');
-    });
-    $(document).on('keydown', (e) => {
-        if (e.key === 'Escape') addModal.addClass('hidden');
-    });
-
-    // ========== Pencarian Lokasi ==========
-    $('#searchBtn').on('click', function () {
-        const q = $('#searchLocation').val();
-        if (!q) return;
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`)
-            .then(r => r.json())
-            .then(data => {
-                if (data && data.length > 0) {
-                    const loc = data[0];
-                    map.setView([loc.lat, loc.lon], 15);
-                    marker.setLatLng([loc.lat, loc.lon]);
-                    $('#location').val(loc.display_name);
-                } else {
-                    alert('Lokasi tidak ditemukan');
-                }
-            })
-            .catch(err => console.error('Error fetching location:', err));
-    });
-
-    $('#locateBtn').on('click', function () {
-        if (!navigator.geolocation) {
-            alert('Geolocation tidak didukung browser ini.');
-            return;
-        }
-        navigator.geolocation.getCurrentPosition(function (position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            map.setView([lat, lon], 15);
-            marker.setLatLng([lat, lon]);
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+        // ===== Pencarian lokasi =====
+        $('#searchBtn').on('click', function () {
+            const q = $('#searchLocation').val();
+            if (!q) return;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`)
                 .then(r => r.json())
                 .then(data => {
-                    $('#location').val(data && data.display_name ? data.display_name : 'Nama lokasi tidak ditemukan');
+                    if (data && data.length > 0) {
+                        const loc = data[0];
+                        map.setView([loc.lat, loc.lon], 15);
+                        marker.setLatLng([loc.lat, loc.lon]);
+                        $('#location').val(loc.display_name);
+                    } else {
+                        alert('Lokasi tidak ditemukan');
+                    }
                 })
-                .catch(err => {
-                    console.error('Error reverse geocoding:', err);
-                    $('#location').val('Gagal mengambil nama lokasi');
-                });
-        }, function (error) {
-            alert('Gagal mengambil lokasi: ' + error.message);
+                .catch(err => console.error('Error fetching location:', err));
         });
-    });
+
+        $('#locateBtn').on('click', function () {
+            if (!navigator.geolocation) {
+                alert('Geolocation tidak didukung browser ini.');
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const lat = position.coords.latitude, lon = position.coords.longitude;
+                map.setView([lat, lon], 15);
+                marker.setLatLng([lat, lon]);
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        $('#location').val(data && data.display_name ? data.display_name : 'Nama lokasi tidak ditemukan');
+                    })
+                    .catch(() => $('#location').val('Gagal mengambil nama lokasi'));
+            }, function (error) {
+                alert('Gagal mengambil lokasi: ' + error.message);
+            });
+        });
+    }
 
     // ========== Delete Confirmation ==========
     $(document).on('click', '.delete-confirm', function () {

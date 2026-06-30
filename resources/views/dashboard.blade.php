@@ -14,45 +14,36 @@
         <div class="p-6 space-y-6">
 
             <!-- Header -->
-            <div
-                class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-2 md:space-y-0">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                        <i class="fa-solid fa-chart-line text-indigo-600 text-4xl"></i>
-                        Dashboard
-                    </h1>
-                    <p class="text-sm text-gray-500 mt-1">
-                        Operational Summary
-                    </p>
-                </div>
-                <div class="text-sm text-gray-500">
-                    {{ now()->format('l, d F Y') }}
-                </div>
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-gauge-high text-indigo-600"></i> Dashboard
+                </h1>
+                <p class="text-sm text-gray-500">Selamat datang kembali, {{ auth()->user()->name }} 👋</p>
             </div>
 
             @if (auth()->user()->level === 'Organizer')
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div class="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                         <h2 class="font-bold text-gray-700 flex items-center gap-2 mb-4">
-                            <i class="fas fa-calendar-days text-orange-500"></i> Total Event
+                            <i class="fas fa-calendar-days text-violet-600"></i> Total Event
                         </h2>
                         <canvas id="grafikEvent" width="100" height="50"></canvas>
                     </div>
                     <div class="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                         <h2 class="font-bold text-gray-700 flex items-center gap-2 mb-4">
-                            <i class="fas fa-ticket text-orange-500"></i> Ticket Last Event
+                            <i class="fas fa-ticket text-blue-600"></i> Ticket Last Event
                         </h2>
                         <canvas id="grafikTicket" width="100" height="50"></canvas>
                     </div>
                     <div class="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                         <h2 class="font-bold text-gray-700 flex items-center gap-2 mb-4">
-                            <i class="fas fa-money-bill-trend-up text-orange-500"></i> Revenue Last Event
+                            <i class="fas fa-money-bill-trend-up text-emerald-600"></i> Revenue Last Event
                         </h2>
                         <canvas id="grafikTransaction" width="100" height="50"></canvas>
                     </div>
                     <div class="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                         <h2 class="font-bold text-gray-700 flex items-center gap-2 mb-4">
-                            <i class="fas fa-wallet text-orange-500"></i> Total Balance
+                            <i class="fas fa-wallet text-teal-600"></i> Total Balance
                         </h2>
                         <canvas id="grafikBalance" width="100" height="50"></canvas>
                     </div>
@@ -63,25 +54,25 @@
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div class="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                         <h2 class="font-bold text-gray-700 flex items-center gap-2 mb-4">
-                            <i class="fas fa-calendar-days text-orange-500"></i> Total Event
+                            <i class="fas fa-calendar-days text-violet-600"></i> Total Event
                         </h2>
                         <canvas id="grafikEvent" width="100" height="50"></canvas>
                     </div>
                     <div class="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                         <h2 class="font-bold text-gray-700 flex items-center gap-2 mb-4">
-                            <i class="fas fa-receipt text-orange-500"></i> Total Transactions
+                            <i class="fas fa-receipt text-green-600"></i> Total Transactions
                         </h2>
                         <canvas id="grafikTicket" width="100" height="50"></canvas>
                     </div>
                     <div class="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                         <h2 class="font-bold text-gray-700 flex items-center gap-2 mb-4">
-                            <i class="fas fa-users text-orange-500"></i> Total User
+                            <i class="fas fa-users text-sky-600"></i> Total User
                         </h2>
                         <canvas id="grafikTransaction" width="100" height="50"></canvas>
                     </div>
                     <div class="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                         <h2 class="font-bold text-gray-700 flex items-center gap-2 mb-4">
-                            <i class="fas fa-user-tie text-orange-500"></i> Total Organizer
+                            <i class="fas fa-user-tie text-purple-600"></i> Total Organizer
                         </h2>
                         <canvas id="grafikBalance" width="100" height="50"></canvas>
                     </div>

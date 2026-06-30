@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Exports\TransactionsExport;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -32,4 +35,30 @@ class TransactionController extends Controller
 
         return view('showtransaction', compact('transaction'));
     }
+
+        public function export(Request $request)
+    {
+        $user = Auth::user();
+        $start = $request->query('start');
+        $end = $request->query('end');
+
+        $query = Transaction::with(['user', 'tickets', 'event'])->latest();
+
+        if ($user->level !== 'Admin') {
+            $query->whereHas('event', fn($q) => $q->where('user_id', $user->id));
+        }
+        if ($start) {
+            $query->whereDate('created_at', '>=', $start);
+        }
+        if ($end) {
+            $query->whereDate('created_at', '<=', $end);
+        }
+
+        $transactions = $query->get();
+
+        $filename = 'transactions_' . now()->format('Ymd_His') . '.xlsx';
+
+        return Excel::download(new TransactionsExport($transactions, $start, $end), $filename);
+    }
+
 }

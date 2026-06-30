@@ -36,7 +36,7 @@
             <div class="md:flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-gray-100 space-y-3 md:space-y-0">
                 <div>
                     <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-tags text-orange-500"></i> Category
+                        <i class="fas fa-tags text-pink-600"></i> Category
                     </h1>
                     <p class="text-sm text-gray-500">Kelola kategori event</p>
                 </div>

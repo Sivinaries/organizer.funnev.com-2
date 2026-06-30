@@ -34,7 +34,7 @@
             <!-- Header Section -->
             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                 <h1 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-                    <i class="fas fa-history text-orange-500"></i> Log Aktivitas
+                    <i class="fas fa-history text-slate-600"></i> Log Aktivitas
                 </h1>
                 <p class="text-sm text-gray-500 mt-1">Pantau aktivitas pengguna & sistem</p>
             </div>
@@ -51,7 +51,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-700 text-sm divide-y divide-gray-200">
-                            @forelse ($acts as $item)
+                            @foreach ($acts as $item)
                                 @php
                                     $name = $item->user->name ?? 'System';
                                     $actLower = strtolower($item->action);
@@ -107,19 +107,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="p-12 text-center">
-                                        <div class="flex flex-col items-center justify-center opacity-50">
-                                            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                                <i class="fas fa-history text-4xl text-gray-300"></i>
-                                            </div>
-                                            <h3 class="text-lg font-medium text-gray-900">Tidak Ada Log Aktivitas</h3>
-                                            <p class="text-sm text-gray-500 mt-1">Aktivitas sistem akan direkam di sini secara otomatis.</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

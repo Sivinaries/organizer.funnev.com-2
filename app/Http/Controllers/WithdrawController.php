@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use App\Models\Act;
+use App\Models\BalanceEntry;
+use App\Models\User;
 use App\Models\Withdraw;
-use App\Models\Transaction;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class WithdrawController extends Controller
 {
@@ -68,36 +69,59 @@ class WithdrawController extends Controller
 
     public function approve($id)
     {
-        $withdraw = Withdraw::findOrFail($id);
         $admin = Auth::user();
-        $user = $withdraw->user;
-
-        if ($user->balance < $withdraw->amount) {
-            return back()->with('error', 'Saldo user tidak mencukupi.');
-        }
-
-        DB::beginTransaction();
 
         try {
-            // Kurangi saldo user
-            $user->decrement('balance', $withdraw->amount);
+            $result = DB::transaction(function () use ($id) {
+                // kunci baris agar tak ada balapan
+                $withdraw = Withdraw::lockForUpdate()->findOrFail($id);
 
-            // Update status withdraw
-            $withdraw->update(['status' => 'Approved']);
+                // jangan proses dua kali
+                if ($withdraw->status === 'Approved') {
+                    return ['ok' => false, 'msg' => 'Withdraw sudah disetujui sebelumnya.'];
+                }
 
-            // Act log
+                $user = User::lockForUpdate()->findOrFail($withdraw->user_id);
+
+                if ($user->balance < $withdraw->amount) {
+                    return ['ok' => false, 'msg' => 'Saldo user tidak mencukupi.'];
+                }
+
+                // debit ke ledger; unique(type,ref) cegah double-debit
+                BalanceEntry::create([
+                    'user_id' => $user->id,
+                    'amount' => -1 * $withdraw->amount,
+                    'type' => 'withdrawal',
+                    'reference_type' => 'withdraw',
+                    'reference_id' => $withdraw->id,
+                    'description' => 'Penarikan disetujui Rp' . number_format($withdraw->amount),
+                ]);
+
+                // update saldo cache
+                $user->decrement('balance', $withdraw->amount);
+
+                $withdraw->status = 'Approved';
+                $withdraw->settled_at = now();
+                $withdraw->save();
+
+                return ['ok' => true, 'user' => $user, 'withdraw' => $withdraw];
+            });
+
+            if (! $result['ok']) {
+                return back()->with('error', $result['msg']);
+            }
+
             Act::create([
                 'user_id' => $admin->id,
                 'action' => 'approve_withdraw',
-                'description' => "Admin {$admin->name} menyetujui withdraw user {$user->name} sebesar Rp" . number_format($withdraw->amount),
+                'description' => "Admin {$admin->name} menyetujui withdraw user {$result['user']->name} sebesar Rp" . number_format($result['withdraw']->amount),
             ]);
             Cache::forget('acts');
 
-            DB::commit();
-
             return redirect()->route('withdraws')->with('success', 'Withdraw berhasil disetujui.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return back()->with('error', 'Withdraw sudah diproses atau terjadi kesalahan.');
         } catch (Exception $e) {
-            DB::rollBack();
             return back()->with('error', 'Terjadi kesalahan saat menyetujui withdraw.');
         }
     }
